@@ -1,0 +1,190 @@
+<html>
+<head>
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title></title>
+<style>
+    .list-group{
+        margin-left: 12px;
+    }
+    .container-lg{
+        margin-top: 20px;
+    }
+    .btn_trash{
+        float: right;
+        cursor: pointer;
+    }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+   function setItemToDoList(toDoList){
+       var items = window.localStorage.removeItem('items');
+       window.localStorage.setItem('items', JSON.stringify(toDoList))
+   }
+   function getItemToDoList(){
+       var items = window.localStorage.getItem('items');
+       return items && items.length > 0? JSON.parse(items) : []
+   }
+   function removeElement(elem) {
+        var items = getItemToDoList()
+        var index = items.indexOf(elem);
+        if (index > -1) {
+            items.splice(index, 1);
+        }
+
+        setItemToDoList(items)
+    }
+    function newElement(){
+        var items = getItemToDoList()
+        var e=document.createElement("li")
+        e.className = "list-group-item";
+        t=document.getElementById("myInput").value
+        var e=document.createElement("li")
+        e.className = "list-group-item";
+
+        var n=document.createElement("SPAN")
+        n.className = "task"
+        ts =document.createTextNode(t)
+        n.appendChild(ts)
+        ""==t && alert("You must write something!")
+        0<=items.indexOf(t)&&alert("You haven't done the task '"+t+"'!")
+        if(!t || t.trim() === '' || 0<=items.indexOf(t)) return
+        items.push(t)
+        setItemToDoList(items)
+        e.appendChild(n)
+        document.getElementById("myUL").appendChild(e)
+        document.getElementById("myInput").value=""
+        addEnventRemoveTask(e)
+    }
+    function addEnventRemoveTask(item){
+        var l=document.createElement("SPAN")
+        var rm=document.createElement("i")
+        rm.className ="fa fa-trash-o"
+        for(l.className="close btn_trash",l.appendChild(rm),item.appendChild(l),i=0;i<close.length;i++){
+            close[i].onclick=function(){
+                var task = this.parentElement.childNodes[0]
+                var item = task.textContent || task.innerText
+                removeElement(item)
+                this.parentElement.remove()
+            };
+        }
+    }
+   function reload(){
+        var items = getItemToDoList()
+        var totalToDoList = items.length
+        for(var i = 0; i < totalToDoList; i++){
+            var t = items[i]
+            var e=document.createElement("li")
+            e.className = "list-group-item";
+
+            var n=document.createElement("SPAN")
+            n.className = "task"
+            ts =document.createTextNode(t)
+            n.appendChild(ts)
+            
+            e.appendChild(n)
+            document.getElementById("myUL").appendChild(e)
+            addEnventRemoveTask(e)
+        }
+    }
+
+    function renderToDoList(){
+        var ul = document.createElement("ul");
+        ul.className = "col-8 list-group list-group-numbered"
+        ul.id = "myUL";
+
+        var tasks =document.getElementsByClassName("tasks")
+        tasks[0].appendChild(ul);
+    }
+    function createContainer(){
+        var container = document.createElement("div");
+        container.className="container-lg";
+
+        document.body.appendChild(container);
+
+        var header = document.createElement("div");
+        header.className="header";
+        header.id="myDiv";
+
+        container.appendChild(header);
+        
+        var h2 = document.createElement("h2");
+        h2.innerText = "Todo List";
+        header.appendChild(h2);
+
+        var row = document.createElement("div");
+        row.className="row tasks";
+        container.appendChild(row);
+
+        var col = document.createElement("div");
+        col.className="col-6";
+        row.appendChild(col);
+
+        var inputGroupTask = document.createElement("div");
+        inputGroupTask.className="input-group mb-3";
+        col.appendChild(inputGroupTask);
+
+        input = document.createElement("input");
+        input.type = "text";
+        input.className= "form-control"
+        input.id = "myInput";
+        inputGroupTask.appendChild(input);
+
+        button = document.createElement("button");
+        button.onclick = newElement;
+        button.className = "addBtn btn btn-outline-secondary";
+        button.type= "button"
+        button.innerText = "Add";
+        inputGroupTask.appendChild(button);
+    }
+    function addEventHideItemToDoList(){
+        close = document.getElementsByClassName("close");
+        for (var i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+            debugger;
+            var div = this.parentElement;
+            div.style.display = "none";
+        }
+        }
+    }
+
+    function checkingItem(){
+        // checking items to mark them as done
+        list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+        if (ev.target.tagName == 'LI') {
+            ev.target.classList.toggle('checked');
+        }
+        }, false);
+    }
+
+onload = function(){
+    createContainer()
+    renderToDoList()
+    addEventHideItemToDoList()
+    checkingItem()
+    reload()
+};
+    
+
+   
+
+</script> 
+ <!-- <script type="text/javascript">
+onload = function(){
+// var divg = document.createElement("div");
+// divg.appendChild(document.createTextNode("New DIV"));
+// document.body.appendChild(divg);
+var div = document.createElement("div");
+        div.classname="header";
+        div.id="myDiv";
+        
+        
+        document.body.appendChild(div);
+};
+</script>  -->
+</head>
+<body>
+
+</body>
+</html>
